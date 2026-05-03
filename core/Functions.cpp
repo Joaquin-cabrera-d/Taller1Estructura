@@ -1,4 +1,4 @@
-#pragma once
+#include "Functions.h"
 
 void menuPlaylist(){
 	string opcion;
