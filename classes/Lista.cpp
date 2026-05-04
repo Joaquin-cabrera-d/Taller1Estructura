@@ -68,7 +68,7 @@ void Lista::Print() {
 
 void Lista::mostrarEstadoActual() {
     if (cancionActual == nullptr) {
-        cout << "\nReproducción Detenida" << endl;
+        cout << "\nReproduccion Detenida" << endl;
         return;
     }
 
@@ -129,7 +129,7 @@ void Lista::siguiente() {
             siguienteCancion = principio;
             cout << "\n⏭ (Repitiendo lista): " << siguienteCancion->getNombre() << endl;
         } else {
-            cout << "\n⏹ Fin de la lista de reproducción" << endl;
+            cout << "\n⏹ Fin de la lista de reproduccion" << endl;
             reproduciendo = false;
             return;
         }
@@ -147,7 +147,7 @@ void Lista::anterior() {
     }
 
     if (cancionActual == principio) {
-        cout << "\n⏮ No hay canción anterior" << endl;
+        cout << "\n⏮ No hay cancion anterior" << endl;
         return;
     }
 
@@ -209,7 +209,7 @@ void Lista::mezclarLista() {
     arreglo[totalCanciones - 1]->setSiguiente(nullptr);
 
     delete[] arreglo;
-    cout << "✓ Lista de reproducción mezclada" << endl;
+    cout << "✓ Lista de reproduccion mezclada" << endl;
 }
 
 void Lista::toggleRepeticion() {
@@ -238,7 +238,7 @@ void Lista::mostrarListaReproduccion() {
         cout << "Actual: (ninguna)" << endl;
     }
 
-    cout << "\nPróximas canciones:" << endl;
+    cout << "\nProximas canciones:" << endl;
 
     if (cancionActual == nullptr || cancionActual->getSiguiente() == nullptr) {
         cout << "  [Vacía]" << endl;
@@ -261,7 +261,7 @@ void Lista::mostrarTodasCanciones() {
 
 void Lista::saltarACancion(int posicion) {
     if (posicion < 1 || posicion > totalCanciones) {
-        cout << "\n Posición inválida" << endl;
+        cout << "\n Posición invalida" << endl;
         return;
     }
     
