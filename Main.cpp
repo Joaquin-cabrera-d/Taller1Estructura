@@ -1,84 +1,132 @@
 #include <iostream>
 #include <string>
 #include <cctype>
+#include <fstream>
+#include <sstream>
+#include "classes/Cancion.h"
+#include "classes/Lista.h"
+using namespace std;
 
-void menuPlaylist();
-void menuListado();
+void menu() {cout << R"(
 
-void menuPlaylist(){
-	string opcion;
-	string input;
-	cout << "Opciones:" << endl;
-	cout << "S<num> - Saltar a la cancion seleccionada" << endl;
-	cout << "V - Volver al menu principal" << endl;
-}
+                   REPRODUCTOR DE MuSICA
 
-void menuListado(){
-	string opcion;
-	string input;
-	cout << "Opciones:" << endl;
-	cout << "R<num> - Reproducir cancion seleccionada" << endl;
-	cout << "A<num> - Agregar cancion seleccionada al final de la lista de reproduccion actual" << endl;
-	cout << "N - Agregar cancion al registro de canciones" << endl;
-	cout << "D<num> - Eliminar cancion seleccionada" << endl;
-	cout << "V - Volver al menu principal" << endl;
-	
+ W - Reproducir/Pausar
+ Q - Pista Anterior
+ E - Pista Siguiente
+ S - Activar/Desactivar modo aleatorio
+ R - Repeticion (Desactivado/Repetir una/Repetir todas)
+ A - Ver lista de reproduccion actual
+ L - Listado de canciones
+ X - Salir
+
+ Ingrese Opcion:
+)";
+
 }
 
 int main() {
-    char opcion;
-    char input;
-    do{
-        cout << "Reproduciendo :   " << endl;
-        cout << "Artista: " << endl;
-        cout << "Album: " << endl;
-        cout << "                      " << endl;
-        cout << "                      " << endl;
-        cout << "Opciones:" << endl;
-        cout << "W - Reproducir/Pausar" << endl;
-        cout << "Q - Pista Anterior" << endl;
-        cout << "E - Pista Siguiente" << endl;
-        cout << "S - Activar/Desactivar modo aleatorio" << endl;
-        cout << "R - Repetición (Desactivado/Repetir una/Repetir todas)" << endl;
-        cout << "A - Ver lista de reproducción actual" << endl;
-        cout << "L - Listado de canciones" << endl;
-        cout << "X - Salir" << endl;
-        cout << "Ingrese Opción: ";
-        getline(cin, input);
+
+    ifstream file("C:/Users/chapuza/OneDrive/Documents/UCN/Estructura/untitled/Canciones.txt");
+
+
+    if (!file.is_open()) {
+        cout << "Error: No se pudo abrir el archivo de canciones" << endl;
+        cout << "Verifica que el archivo exista en la ruta correcta" << endl;
+        return 1;
+    }
+
+    Lista lista;
+    string linea;
+
+    while (getline(file, linea)) {
+        if (linea.empty()) continue;
+
+        stringstream ss(linea);
+        string id, nombre, artista, album, anio, duracionStr, ruta;
+
+        getline(ss, id, ',');
+        getline(ss, nombre, ',');
+        getline(ss, artista, ',');
+        getline(ss, album, ',');
+        getline(ss, anio, ',');
+        getline(ss, duracionStr, ',');
+        getline(ss, ruta, ',');
+
+        int duracion = 0;
         try {
-            opcion = stoi(input);
-        } catch (...){
-            opcion = 0;
+            duracion = stoi(duracionStr);
+        } catch (...) {
+            duracion = 0;
         }
-        opcion = std::tolower(opcion);
-        switch(opcion){
-            case 'w':
 
-                break;
-            case 'q' :
+        Cancion* cancion = new Cancion(id, nombre, artista, album, anio, duracion, ruta);
+        lista.Agregar(cancion);
+    }
+    file.close();
 
-                break;
-            case 'e' :
+    if (lista.Vacia()) {
+        cout << "No hay canciones para reproducir" << endl;
+        return 1;
+    }
 
-                break;
-            case 's' :
 
-                break;
-            case 'r' :
+    lista.reproducirPausar();
 
+    char opcion;
+    do {
+        lista.mostrarEstadoActual();
+        menu();
+        cin >> opcion;
+        opcion = toupper(opcion);
+
+        switch (opcion) {
+            case 'W':
+                lista.reproducirPausar();
                 break;
-            case 'a' :
-				menuPlaylist();
+
+            case 'Q':
+                lista.anterior();
                 break;
-			case 'l':
-				menuListado();
-				break;
-            case 'x' :
-                cout<<"Saliendo del programa"<<endl;
+
+            case 'E':
+                lista.siguiente();
                 break;
+
+            case 'S':
+                lista.toggleAleatorio();
+                break;
+
+            case 'R':
+                lista.toggleRepeticion();
+                break;
+
+            case 'A':
+                lista.mostrarListaReproduccion();
+                break;
+
+            case 'L':
+                lista.mostrarTodasCanciones();
+                break;
+
+            case 'X':
+                cout << "\n Saliendo del reproductor..." << endl;
+                break;
+
             default:
-                cout << "Opcion no valida, intente de nuevo"<< endl;
+                cout << "\n Opción no válida. Intente nuevamente." << endl;
+                break;
         }
-    } while(opcion != 'x');
+
+        if (opcion != 'X') {
+            cout << "\nPresione Enter para continuar...";
+            cin.ignore();
+            cin.get();
+        }
+
+
+
+    } while (opcion != 'X');
+
     return 0;
 }
