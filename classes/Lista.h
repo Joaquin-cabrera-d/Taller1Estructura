@@ -26,6 +26,7 @@ public:
     // Control de reproducción
     void reproducirPausar();
     void siguiente();
+    Cancion* obtenerActual();
     void anterior();
     void saltarACancion(int posicion);
 

@@ -7,16 +7,20 @@
 #include "classes/Lista.h"
 using namespace std;
 
-void guardarConfig(Node* actual){
+void guardarConfig(Cancion* actual){
     if(actual==nullptr)return;
     ofstream archivo("Estado.cfg");
-    archivo<<"id="<<actual->id<<endl;
-    archivo<<"nombre_cancion="<<actual->nombre<<endl;
-    archivo<<"nombre_artista="<<actual->artista<<endl;
-    archivo<<"nombre_album="<<actual->album<<endl;
-    archivo<<"year="<<actual->year<<endl;
-    archivo<<"duracion="<< actual->duracion<<endl;
-    archivo<<"ubicacion_archivo="<<actual->ruta<<endl;
+    if (!archivo.is_open()) {
+        perror("Error al abrir el archivo"); // Te dirá exactamente por qué falló
+        return;
+    }
+    archivo<<"id="<<actual->getId()<<endl;
+    archivo<<"nombre_cancion="<<actual->getNombre()<<endl;
+    archivo<<"nombre_artista="<<actual->getArtista()<<endl;
+    archivo<<"nombre_album="<<actual->getAlbum()<<endl;
+    archivo<<"year="<<actual->getAnio()<<endl;
+    archivo<<"duracion="<< actual->getDuracion()<<endl;
+    archivo<<"pendientes="<< actual->getSiguiente()<<endl  ;
     archivo.close();
 }
 
@@ -100,10 +104,12 @@ int main() {
 
             case 'Q':
                 lista.anterior();
+                guardarConfig(lista.getCancionActual());
                 break;
 
             case 'E':
                 lista.siguiente();
+                guardarConfig(lista.getCancionActual());
                 break;
 
             case 'S':
@@ -123,7 +129,7 @@ int main() {
                 break;
 
             case 'X':
-                guardarConfig(lista.getActual());
+                guardarConfig(lista.getCancionActual());
                 cout << "\n Saliendo del reproductor..." << endl;
                 break;
 
