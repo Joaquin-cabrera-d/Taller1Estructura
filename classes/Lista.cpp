@@ -139,6 +139,13 @@ void Lista::siguiente() {
     reproduciendo = true;
     cout << "\n⏭ Reproduciendo: " << cancionActual->getNombre() << endl;
 }
+Cancion* Lista::obtenerActual() {
+    if (cancionActual == nullptr) {
+        cout << "\n No hay cancion actual" << endl;
+        return nullptr;
+    }
+    return cancionActual;
+}
 
 void Lista::anterior() {
     if (cancionActual == nullptr) {

@@ -7,6 +7,19 @@
 #include "classes/Lista.h"
 using namespace std;
 
+void guardarConfig(Node* actual){
+    if(actual==nullptr)return;
+    ofstream archivo("Estado.cfg");
+    archivo<<"id="<<actual->id<<endl;
+    archivo<<"nombre_cancion="<<actual->nombre<<endl;
+    archivo<<"nombre_artista="<<actual->artista<<endl;
+    archivo<<"nombre_album="<<actual->album<<endl;
+    archivo<<"year="<<actual->year<<endl;
+    archivo<<"duracion="<< actual->duracion<<endl;
+    archivo<<"ubicacion_archivo="<<actual->ruta<<endl;
+    archivo.close();
+}
+
 void menu() {cout << R"(
 
                    REPRODUCTOR DE MuSICA
@@ -110,6 +123,7 @@ int main() {
                 break;
 
             case 'X':
+                guardarConfig(lista.getActual());
                 cout << "\n Saliendo del reproductor..." << endl;
                 break;
 
