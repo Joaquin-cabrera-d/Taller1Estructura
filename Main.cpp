@@ -27,7 +27,7 @@ void menu() {cout << R"(
 
 int main() {
      // cambia la direccion de del archivo
-    ifstream file("C:/Users/chapuza/OneDrive/Documents/UCN/Estructura/untitled/Canciones.txt");
+    ifstream file("Canciones.txt");
 
 
     if (!file.is_open()) {
