@@ -114,7 +114,7 @@ int main() {
                 break;
 
             default:
-                cout << "\n Opción no válida. Intente nuevamente." << endl;
+                cout << "\n Opcion no valida. Intente nuevamente." << endl;
                 break;
         }
 
